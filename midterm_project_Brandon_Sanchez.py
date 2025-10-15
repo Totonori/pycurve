@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from matplotlib import pyplot as plt
+import numpy as np
 
 root = Tk() # this is the parent "widget", aka intializing factor
 root.call('tk', 'scaling', 2.0) #makes the app larger
@@ -11,7 +12,6 @@ root.columnconfigure(1, weight=1)
 root.columnconfigure(2, weight=1)
 root.rowconfigure(0, weight=1)
 root.rowconfigure(1, weight=0)
-
 
 def add_entry():
     idx = len(point_list_voltage) #allows for the points to be in the same column.
@@ -44,6 +44,12 @@ def user_data():
         collected_data.append((v, i)) #pairs the x,y together, (v,i)
     print(f"The collected data is: {collected_data}")
     return collected_data
+def solar_graph():
+    ...
+def resistor_graph():
+    ...
+def capacitor_graph():
+    ...
 def user_graph():
     data = user_data() #calls back the user_data function to get the data
     voltages = [v for v, i in data] #creates a list of just the voltages
@@ -55,7 +61,6 @@ def user_graph():
     plt.xlabel("Voltage (V)") #x axis label 
     plt.ylabel("Current (A)") #y axis label
     plt.show() #shows the graph
-
 
 text_voltage = Label(root, text="Voltage (V)") #text that labels the voltage point side (x)
 text_voltage.grid(row=0, column=0, padx=10, pady=10, sticky="nw")
@@ -88,5 +93,25 @@ save_button.grid(row=1,column=0,padx=0,pady=0, sticky="s")
 
 button_graph = Button(root, text="Generate Graph", command=user_graph)
 button_graph.grid(row=1, column=1, padx=0, pady=50, sticky="n")
+
+#now checkbox to add different electrical component graphs
+
+text_graphs = Label(root, text="Which component graph are you comparing to?")
+text_graphs.grid(row=0, column=1, pady=100, padx=0, sticky="s")
+
+#to access whether or not the box is checked or not for future case use in user_graph function
+solar_cell = BooleanVar()
+solar_cell.set(False)
+resistor = BooleanVar()
+resistor.set(False)
+capacitor = BooleanVar()
+capacitor.set(False)
+
+check_solar = Checkbutton(root, text="Solar Cell", variable=solar_cell) #creates checkbox for solar cell
+check_solar.grid(row=0, column=1, pady=60, padx=0, sticky="s") #placement of checkbox
+check_resistor = Checkbutton(root, text="Resistor", variable=resistor) #creates checkbox for resistor
+check_resistor.grid(row=0, column=1, pady=30, padx=0, sticky="s")
+check_capacitor = Checkbutton(root, text="Capacitor", variable=capacitor) #creates checkbox for capacitor
+check_capacitor.grid(row=0, column=1, pady=0, padx=0, sticky="s")
 
 root.mainloop() #begins the application
